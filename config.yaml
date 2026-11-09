@@ -1,0 +1,54 @@
+paths:
+  data_dir: "Percorso_dataset" 
+  exp_name: "Percorso_output"
+  mode: "auto"
+  device: null               
+
+model:
+  scale: 2
+  res_scale: 0.1
+  # 2D
+  channels_2d: 64
+  groups_2d: 8
+  blocks_2d: 16
+  # 3D
+  channels_3d: 48
+  groups_3d: 6
+  blocks_3d: 12
+
+training:
+  epochs: 11
+  lr: 2.0e-4
+  min_lr: 1.0e-6
+  batch_size_2d: 24
+  batch_size_3d: 4
+  hr_patch_2d: 192
+  hr_patch_3d: 80
+  train_repeat: 5
+  patience: 50
+  restart_period: 40
+  gradient_clip: 1.0
+  use_amp: true
+  debug_freq: 10
+
+degradation:
+  # Training
+  train_blur_sigma_range: [0.4, 1.0]
+  train_noise_std_range: [0.015, 0.035]
+  # Validation (only worst-case)
+  val_blur_sigma_range: [0.3, 0.7]
+  val_noise_std_range: [0.005, 0.020]
+
+loss_schedule:
+  stage1_epochs: 60
+  stage1_l1: 1.0
+  stage2_epochs: 50
+  stage2_hfen_max: 0.2
+  stage3_epochs: 40
+  stage3_ssim_max: 0.08
+
+dataloader:
+  num_workers: 0
+  pin_memory: true
+  prefetch_factor: 3
+  persistent_workers: false
